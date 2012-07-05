@@ -275,10 +275,9 @@ module Pismo
     end
     
     # Returns URL to the site's favicon
-    def favicon
-      url = @doc.match([['link[@rel="fluid-icon"]', lambda { |el| el.attr('href') }],      # Get a Fluid icon if possible..
-                        ['link[@rel="shortcut icon"]', lambda { |el| el.attr('href') }],
-                        ['link[@rel="icon"]', lambda { |el| el.attr('href') }]])
+    def favicon(order = ["fluid-icon", "shortcut icon", "icon"])
+      pattern = order.map{|icon-type| ['link[@rel="'+icon-type+'"]', lambda { |el| el.attr('href') }]}
+      url = @doc.match(pattern)
       if url && url !~ /^http/ && @url
         url = URI.join(@url , url).to_s
       end
