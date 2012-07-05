@@ -276,7 +276,7 @@ module Pismo
     
     # Returns URL to the site's favicon
     def favicon(order = ["fluid-icon", "shortcut icon", "icon"])
-      pattern = order.map{|icon-type| ['link[@rel="'+icon-type+'"]', lambda { |el| el.attr('href') }]}
+      pattern = order.map{|icon_type| ['link[@rel="'+icon_type+'"]', lambda { |el| el.attr('href') }]}
       url = @doc.match(pattern)
       if url && url !~ /^http/ && @url
         url = URI.join(@url , url).to_s
